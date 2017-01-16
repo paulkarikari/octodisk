@@ -7,10 +7,10 @@
           <h3>Qty : <span class="drug-item-info"> {{ drugItem.quantity }}</span></h3>
         </div>
         <div class="options">
-          <span title="Edit" v-on:click="removeItem"> 
+          <span title="Edit" v-on:click="editItem(itemkey)"> 
             <img src="../assets/content.png"  class="img-responsive" alt="Image"></span>
-          <a href="/#" title="Delete">
-           <img src="../assets/rubbish-bin.png"  class="img-responsive" alt="Image"></a>
+          <span href="/#" title="Delete" v-on:click="removeItem(itemkey)">
+           <img src="../assets/rubbish-bin.png"  class="img-responsive" alt="Image"></span>
         </div> 
       </div>  
 </template>
@@ -18,15 +18,19 @@
 <script>
 export default {
   name: 'hello',
-  props: ['drugItem'],
+  props: ['drugItem', 'itemkey'],
   methods: {
-    removeItem: function () {
-      console.log('hi')
-      this.$emit('removeItem')
+    removeItem: function (itemkey) {
+      console.log(itemkey)
+      this.$emit('removeItem', itemkey)
+    },
+    editItem: function (itemkey) {
+      console.log(itemkey)
+      this.$emit('editItem', itemkey)
     }
   },
   mounted () {
-    //  console.log(this.drugItem)
+    // console.log(this.itemkey)
   },
   data () {
     return {

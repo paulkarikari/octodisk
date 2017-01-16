@@ -1,25 +1,25 @@
 <template>
   <aside class="side-bar">
       <div class="menu-item">
-        <a href="#">
+        <router-link to="/wholesaler">
         <img src="../assets/medicine.png"  alt="Image">
         <h3>List Drugs</h3>
-        </a>
+        </router-link>
       </div>
       <hr>
 
       <div class="menu-item">
-        <a href="#">
+        <router-link to="/wholesaler/add">
         <img src="../assets/drugs.png"  alt="Image">
         <h3>Add Drug</h3>
-        </a>
+        </router-link>
       </div>
              <hr>
       <div class="menu-item">
-        <a href="#">
+        <router-link to="#">
         <img src="../assets/graph.png"  alt="Image">
         <h3>Reports</h3>
-        </a>
+        </router-link>
       </div>
   </aside>
 </template>

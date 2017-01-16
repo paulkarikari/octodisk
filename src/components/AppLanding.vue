@@ -10,8 +10,10 @@
         <br>
         <input type="text" class="form-control" placeholder="Password" required="required" pattern="" title="">
         <br>
-        <button type="button" class="btn">Sign In</button>
-    
+        
+        <router-link to="/wholesaler" class="btn">
+        Sign In
+        </router-link>
     </form>
   </div>
 </div>

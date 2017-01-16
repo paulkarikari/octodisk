@@ -1,6 +1,8 @@
 <template>
   <nav class="nav-bar">
-     <img src="../assets/octodisklogo.png" class="logo img-responsive"    alt="">
+    <router-link to="/">
+      <img src="../assets/octodisklogo.png" class="logo img-responsive"    alt="">
+    </router-link>
   </nav>
 </template>
 

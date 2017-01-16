@@ -1,16 +1,20 @@
 <template>
   <div class="container">
-  <Nav />
+  <Navbar />
   
  <div class="main-content">
   <Sidebar />
-           <router-view :drugs="drugs" v-on:removeItem="removeDrug"></router-view>
+           <router-view :drugs="drugs" v-on:removeItem="removeDrug"
+            v-on:editItem="editDrug" :itemToEdit="itemToEdit" v-on:addItem="addItem" 
+            v-on:updateItem="upudateItem">
+            </router-view>
  </div>
 </div>
+
 </template>
 
 <script>
-import Nav from './Nav'
+import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import Firebase from 'firebase'
 
@@ -27,36 +31,52 @@ var firedb = FirebaseApp.database()
 export default {
   name: 'AdminContainer',
   mounted () {
-    // var wholeSaleRef = firedb.ref('wholesalers').push()
     var drugsRef = firedb.ref('drugs')
-    // drugsRef.set({name: 'paracetamol', quantity: 77, price: 455})
-    // wholeSaleRef.set({name: 'Paul', email: 'xyz2@gmail.com', company: 'A labs'})
     drugsRef.on('value', function (snap) {
       this.drugs = snap.val()
-    })
+      console.log(snap.val())
+    }.bind(this))
   },
   methods: {
-    removeDrug: function () {
-      console.log('removeItem')
-      this.drugs = [{name: 'paracetamol', price: '4, 873', qty: 45}]
+    removeDrug: function (itemkey) {
+      console.log('final removeItem', itemkey)
+      var drugItemRef = firedb.ref('drugs').child(itemkey)
+      drugItemRef.remove()
     },
-    addDrug: function () {
-      console.log('add drug')
+    addDrug: function (itemkey) {
+      var drugsRef = firedb.ref('drugs').push()
+      drugsRef.set(itemkey)
+    },
+    editDrug: function (itemkey) {
+      console.log('final edit', itemkey)
+      this.itemToEdit = this.drugs[itemkey]
+
+      console.log(this.itemToEdit.name)
+      this.$router.push(`wholesaler/edit/${itemkey}`)
+    },
+    upudateItem: function (itemObject) {
+      console.log('updateing')
+      var drugItemRef = firedb.ref('drugs').child(itemObject.key)
+      drugItemRef.update({name: itemObject.name, price: itemObject.price, quantity: itemObject.quantity}, function () {
+        console.log('updated')
+        this.$router.push('/wholesaler')
+      }.bind(this))
+    },
+    addItem: function (item) {
+      var drugsRef = firedb.ref('drugs').push()
+      drugsRef.set(item, () => {
+        console.log('item added')
+      })
     }
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      drugs: [{name: 'paracetamol', price: '4, 873', quantity: 45},
-             {name: 'paracetamol', price: '4, 873', quantity: 45},
-             {name: 'paracetamol', price: '4, 873', quantity: 45},
-             {name: 'paracetamol', price: '4, 873', quantity: 45},
-             {name: 'paracetamol', price: '4, 873', quantity: 45}
-      ]
+      itemToEdit: {},
+      drugs: []
     }
   },
   components: {
-    Nav,
+    Navbar,
     Sidebar
   }
 }

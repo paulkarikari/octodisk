@@ -1,6 +1,7 @@
 <template> 
   <section class="main-view">
-    <ListItem v-for="item in drugs" v-bind:drugItem="item" v-on:removeItem="removeDrug" /> 
+    <ListItem v-for="(item,key) in drugs" v-bind:itemkey="key" v-bind:drugItem="item" 
+    v-on:removeItem="removeDrug" v-on:editItem="editDrug" /> 
   </section>
 </template>
 
@@ -11,9 +12,13 @@ export default {
   name: 'ListDrug',
   props: ['drugs'],
   methods: {
-    removeDrug: function () {
-      console.log('call revieced')
-      this.$emit('removeItem')
+    removeDrug: function (itemkey) {
+      console.log('1removeDrug rec', itemkey)
+      this.$emit('removeItem', itemkey)
+    },
+    editDrug: function (itemkey) {
+      console.log('1editDrug rec', itemkey)
+      this.$emit('editItem', itemkey)
     }
 
   },
